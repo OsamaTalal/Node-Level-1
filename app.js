@@ -4,18 +4,27 @@ const port = 3000
 const mongoose = require('mongoose');
 app.use(express.urlencoded({ extended: true }))
 const Mydata = require("./models/mydataSchema")
+app.set('view engine', 'ejs')
+
 
 
 
 
 app.get('/', (req, res) => {
-  res.sendFile("./views/home.html", { root: __dirname })
+  //array of objects
+  Mydata.find()
+    .then((result) => {
+      res.render("home", { mytitle: "Home Page", arr: result })
+    })
+    .catch((err) => { err });
+
+
 })
 
 
 app.get('/index.html', (req, res) => {
   res.send("<h1> The Name added successfully </h1>")
-})
+});
 
 
 mongoose.connect("mongodb+srv://osamatalal744:o123@cluster0.d2wvcro.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0")
@@ -34,7 +43,7 @@ app.post('/', (req, res) => {
   const mydata = new Mydata(req.body);
   mydata.save().then(() => {
     res.redirect("/index.html")
-  }).catch((err) =>{
+  }).catch((err) => {
     console.log(err)
   })
 
