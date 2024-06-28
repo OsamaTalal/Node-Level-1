@@ -31,19 +31,25 @@ liveReloadServer.server.once("connection", () => {
 
 app.get('/', (req, res) => {
   //array of objects
-  Mydata.find()
-    .then((result) => {
-      res.render("home", { mytitle: "Home Page", arr: result })
-    })
-    .catch((err) => { err });
+  res.render("index", { })
 
 
 })
 
 
-app.get('/index.html', (req, res) => {
-  res.send("<h1> The Name added successfully </h1>")
+app.get('/user/add.html', (req, res) => {
+  res.render("user/add")
 });
+
+
+app.get('/user/view.html', (req, res) => {
+  res.render("user/view")
+});
+
+app.get('/user/edit.html', (req, res) => {
+  res.render("user/edit")
+});
+
 
 
 mongoose.connect("mongodb+srv://osamatalal744:o123@cluster0.d2wvcro.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0")
@@ -52,18 +58,6 @@ mongoose.connect("mongodb+srv://osamatalal744:o123@cluster0.d2wvcro.mongodb.net/
       console.log(`http://localhost:${port}/`)
     });
   })
-  .catch((err) => { console.log(err) });
-
-
-app.post('/', (req, res) => {
-  console.log(req.body)
-
-
-  const mydata = new Mydata(req.body);
-  mydata.save().then(() => {
-    res.redirect("/index.html")
-  }).catch((err) => {
-    console.log(err)
-  })
-
-})
+  .catch((err) => { console.log(err) 
+    
+  });
